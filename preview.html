@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Wegbahn｜デザインプレビュー</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#e5e6e1;color:#171a19;font:16px/1.65 system-ui,sans-serif}
+header{padding:18px 24px;background:#f8f8f4;border-bottom:1px solid #bfc1b7}
+h1{font-size:22px;margin:0 0 6px}
+p{margin:0 0 12px}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+button,a{font:inherit;padding:8px 12px;min-height:44px;background:#fff;color:inherit;border:1px solid #858880;text-decoration:none;cursor:pointer}
+button[aria-pressed=true]{background:#212523;color:white}
+main{padding:16px 24px 24px;overflow:auto}
+iframe{display:block;height:78vh;background:#f8f8f4;border:0;margin:auto}
+</style>
+</head>
+<body>
+<header>
+<h1>Wegbahn コーポレートサイト</h1>
+<p>画面幅とファーストビューを切り替えて比較できます。</p>
+<nav aria-label="プレビュー設定">
+<button type="button" data-width="1440" aria-pressed="true">PC 1440px</button>
+<button type="button" data-width="390" aria-pressed="false">スマートフォン 390px</button>
+<button type="button" data-hero="line" aria-pressed="true">ライン案・推奨</button>
+<button type="button" data-hero="photo" aria-pressed="false">写真案</button>
+<a href="index.html">実寸でサイトを開く</a>
+</nav>
+</header>
+<main><iframe src="index.html" width="1440" title="Wegbahn トップページプレビュー"></iframe></main>
+<script>
+const frame = document.querySelector('iframe');
+for (const key of ['width', 'hero']) {
+  const buttons = document.querySelectorAll(`[data-${key}]`);
+  buttons.forEach(button => button.addEventListener('click', () => {
+    buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    const value = button.dataset[key];
+    if (key === 'width') frame.width = value;
+    else frame.src = value === 'photo' ? 'index.html?hero=photo' : 'index.html';
+  }));
+}
+</script>
+</body>
+</html>
